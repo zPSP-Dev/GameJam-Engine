@@ -38,6 +38,7 @@ pub fn build(b: *Builder) void {
     exe.setLinkerScriptPath("src/Zig-PSP/tools/linkfile.ld");
     exe.link_eh_frame_hdr = true;
     exe.link_emit_relocs = true;
+    exe.single_threaded = true;
 
     //Post-build actions
     const hostTarget = b.standardTargetOptions(.{});
@@ -58,7 +59,7 @@ pub fn build(b: *Builder) void {
 
     const generate_prx = b.addSystemCommand(&[_][]const u8{
         "src/Zig-PSP/tools/bin/prxgen" ++ append,
-        "src/Zig-PSP/zig-cache/main",
+        "zig-cache/main",
         "app.prx"
     });
     generate_prx.step.dependOn(&prx.step);
