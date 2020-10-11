@@ -10,6 +10,14 @@ const pic0 = "NULL"; //REPLACE WITH PATH TO PIC0.PNG 480 x 272 Background
 const pic1 = "NULL"; //REPLACE WITH PATH TO PIC1.PMF 480 x 272 Animation
 const snd0 = "NULL"; //REPLACE WITH PATH TO SND0.AT3 Music
 
+const pkgs = struct {
+    const engine = std.build.Pkg{
+        .name = "engine",
+        .path = "src/engine.zig",
+    };
+};
+
+
 pub fn build(b: *Builder) void {
     
     var feature_set : std.Target.Cpu.Feature.Set = std.Target.Cpu.Feature.Set.empty;
@@ -28,10 +36,11 @@ pub fn build(b: *Builder) void {
     const mode = builtin.Mode.ReleaseSafe;
 
     //Build from your main file!
-    const exe = b.addExecutable("main", "src/main.zig");
+    const exe = b.addExecutable("main", "src/testing.zig");
     //Output to zig cache for now
     exe.setOutputDir("zig-cache/");
-
+    exe.addPackage(pkgs.engine);
+    
     //Set mode & target
     exe.setTarget(target);
     exe.setBuildMode(mode);
