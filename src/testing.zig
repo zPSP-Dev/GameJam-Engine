@@ -2,6 +2,7 @@ const std = @import("std");
 const psp = @import("Zig-PSP/src/psp/utils/psp.zig");
 const time = @import("Zig-PSP/src/psp/os/time.zig");
 usingnamespace @import("Zig-PSP/src/psp/include/psploadexec.zig");
+usingnamespace @import("Zig-PSP/src/psp/include/pspgu.zig");
 const engine = @import("engine");
 const utils = engine.utils;
 const gfx = engine.gfx;
@@ -21,6 +22,7 @@ pub fn main() !void {
     psp.debug.screenInit();
 
     try utils.log.init();
+    utils.log.info("Hello there", .{});
     defer utils.log.deinit();
 
     gfx.renderer.init();
@@ -28,11 +30,16 @@ pub fn main() !void {
     gfx.renderer.set2D();
     defer gfx.renderer.deinit();
 
-    utils.log.info("Hello there", .{});
+
+    var tex : gfx.Texture = gfx.Texture{};
+    try tex.loadTex("test.png", TextureFilter.Nearest, TextureFilter.Nearest, true);
+    defer tex.deleteTex();
 
     while(true) {
         gfx.renderer.recordCommands();
         gfx.renderer.clear();
+
+        tex.bind();
 
         gfx.renderer.submitCommands();
     }

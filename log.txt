@@ -1,1 +1,2 @@
-[31][INFO]: Hello there
+[INFO]: Hello there
+[INFO]: 24710

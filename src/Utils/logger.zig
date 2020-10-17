@@ -50,12 +50,13 @@ pub fn log(lv: Level, comptime fmt: []const u8, args: anytype) !void {
     }
 
     if(!quiet){
-        try std.fmt.format(file.writer(), "[{}]", .{time.milliTimestamp() - start});
+        //try std.fmt.format(file.writer(), "[{}]", .{time.milliTimestamp() - start});
         try std.fmt.format(file.writer(), "[{}]", .{lv.toString()});
         try std.fmt.format(file.writer(), ": ", .{});
         try std.fmt.format(file.writer(), fmt, args);
         try std.fmt.format(file.writer(), "\n", .{});
     }
+
 }
 
 pub fn setLevel(lv: Level) void {
