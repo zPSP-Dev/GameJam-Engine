@@ -4,6 +4,7 @@ const time = @import("Zig-PSP/src/psp/os/time.zig");
 usingnamespace @import("Zig-PSP/src/psp/include/psploadexec.zig");
 const engine = @import("engine");
 const utils = engine.utils;
+const gfx = engine.gfx;
 
 //STD Overrides!
 pub const panic = @import("Zig-PSP/src/psp/utils/debug.zig").panic;
@@ -22,7 +23,17 @@ pub fn main() !void {
     try utils.log.init();
     defer utils.log.deinit();
 
+    gfx.renderer.init();
+    gfx.renderer.setClearColor(255, 0, 255, 255);
+    gfx.renderer.set2D();
+    defer gfx.renderer.deinit();
+
     utils.log.info("Hello there", .{});
 
-    //sceKernelExitGame();
+    while(true) {
+        gfx.renderer.recordCommands();
+        gfx.renderer.clear();
+
+        gfx.renderer.submitCommands();
+    }
 }
